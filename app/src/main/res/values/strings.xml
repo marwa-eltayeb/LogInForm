@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tweet Me</string>
+    <string name="app_name">Login Form</string>
     <string name="hello_world">Hello world!</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
