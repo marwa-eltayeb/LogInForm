@@ -98,7 +98,7 @@ public class SignupActivity extends AppCompatActivity {
         uriBuilder.appendQueryParameter("name", name);
         uriBuilder.appendQueryParameter("address", address);
         uriBuilder.appendQueryParameter("email", email);
-        uriBuilder.appendQueryParameter("mobile", mobile);
+        uriBuilder.appendQueryParameter("mobile_number", mobile);
         uriBuilder.appendQueryParameter("password", password);
 
 
@@ -193,7 +193,11 @@ public class SignupActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(URL... params) {
-            PostUtils.sendData(uriBuilder.toString());
+            try{
+                new URL(uriBuilder.toString()).openStream();
+            } catch (Exception e) {
+                Log.v("Error","Error connecting with Api link");
+            }
             return null;
         }
 
