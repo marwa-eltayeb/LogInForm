@@ -2,6 +2,8 @@ package com.marwa.eltayeb.tweetme;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.net.URL;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -24,6 +28,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText _reEnterPasswordText;
     Button _signupButton;
     TextView _loginLink;
+    Uri.Builder uriBuilder;
 
 
     @Override
@@ -41,10 +46,11 @@ public class SignupActivity extends AppCompatActivity {
         _loginLink = (TextView) findViewById(R.id.link_login);
 
 
+        // Press Create Account
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+                signUp();
             }
         });
 
@@ -61,8 +67,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    public void signup() {
-        Log.d(TAG, "Signup");
+    public void signUp() {
+        Log.d(TAG, "SignUp");
 
         if (!validate()) {
             onSignupFailed();
@@ -82,9 +88,23 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
+
+        //String original = "https://192.168.1.7/learn/insert.php?" + "name=" + name + "&" + "email=" + email;
 
         // TODO: Implement your own signup logic here.
+        Uri baseUri = Uri.parse("http://192.168.1.8/learn/insert.php?");
+        uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("name", name);
+        uriBuilder.appendQueryParameter("address", address);
+        uriBuilder.appendQueryParameter("email", email);
+        uriBuilder.appendQueryParameter("mobile", mobile);
+        uriBuilder.appendQueryParameter("password", password);
+
+
+        // Kick off an {@link AsyncTask} to perform the network request
+        LogInAsyncTask task = new LogInAsyncTask();
+        task.execute();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -97,7 +117,6 @@ public class SignupActivity extends AppCompatActivity {
                     }
                 }, 3000);
     }
-
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
@@ -166,4 +185,18 @@ public class SignupActivity extends AppCompatActivity {
 
         return valid;
     }
+
+    /**
+     * {@link AsyncTask} to perform the network request on a background thread
+     */
+    private class LogInAsyncTask extends AsyncTask<URL, Void, Void> {
+
+        @Override
+        protected Void doInBackground(URL... params) {
+            PostUtils.sendData(uriBuilder.toString());
+            return null;
+        }
+
+    }
+
 }
