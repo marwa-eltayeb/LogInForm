@@ -66,12 +66,12 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-
+    String email;
     public void signUp() {
         Log.d(TAG, "SignUp");
 
         if (!validate()) {
-            onSignupFailed();
+            onSignUpFailed();
             return;
         }
 
@@ -85,17 +85,17 @@ public class SignupActivity extends AppCompatActivity {
 
         String name = _nameText.getText().toString();
         String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
+        email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
 
         //String original = "https://192.168.1.7/learn/insert.php?" + "name=" + name + "&" + "email=" + email;
 
         // TODO: Implement your own signup logic here.
-        Uri baseUri = Uri.parse("http://192.168.1.8/learn/insert.php?");
+        Uri baseUri = Uri.parse("http://192.168.1.3/learn/insert.php?");
         uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("name", name);
+        uriBuilder.appendQueryParameter("username", name);
         uriBuilder.appendQueryParameter("address", address);
         uriBuilder.appendQueryParameter("email", email);
         uriBuilder.appendQueryParameter("mobile_number", mobile);
@@ -111,22 +111,22 @@ public class SignupActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
+                        onSignUpSuccess();
                     }
                 }, 3000);
     }
 
-    public void onSignupSuccess() {
+    public void onSignUpSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        finish();
+        Toast.makeText(getBaseContext(), "SignUp succeeded", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
+        intent.putExtra("email2", email);
+        startActivity(intent);
     }
 
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+    public void onSignUpFailed() {
+        Toast.makeText(getBaseContext(), "SignUp failed", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 
