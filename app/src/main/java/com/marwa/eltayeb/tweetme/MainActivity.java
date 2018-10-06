@@ -23,9 +23,12 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = new Intent(this, LoginActivity.class);
         //startActivity(intent);
 
-        Uri baseUri = Uri.parse("http://192.168.1.8/learn/delete.php?");
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("email2");
+
+        Uri baseUri = Uri.parse("http://192.168.1.3/learn/delete.php?");
         uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter("name", "marwa");
+        uriBuilder.appendQueryParameter("email", email);
 
 
     }
