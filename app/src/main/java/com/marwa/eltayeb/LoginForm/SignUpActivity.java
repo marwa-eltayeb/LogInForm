@@ -1,4 +1,4 @@
-package com.marwa.eltayeb.tweetme;
+package com.marwa.eltayeb.LoginForm;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import java.net.URL;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignupActivity";
+    private static final String TAG = "SignUpActivity";
 
 
     EditText _nameText;
@@ -77,7 +77,7 @@ public class SignupActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
@@ -92,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
         //String original = "https://192.168.1.7/learn/insert.php?" + "name=" + name + "&" + "email=" + email;
 
         // TODO: Implement your own signup logic here.
-        Uri baseUri = Uri.parse("http://192.168.1.3/learn/insert.php?");
+        Uri baseUri = Uri.parse("http://192.168.1.5/learn/insert.php?");
         uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("username", name);
@@ -120,7 +120,7 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), "SignUp succeeded", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(SignupActivity.this,MainActivity.class);
+        Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
         intent.putExtra("email2", email);
         startActivity(intent);
     }

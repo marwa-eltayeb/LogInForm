@@ -1,4 +1,4 @@
-package com.marwa.eltayeb.tweetme;
+package com.marwa.eltayeb.LoginForm;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL("http://192.168.1.3/learn/login.php");
+                url = new URL("http://192.168.1.5/learn/login.php");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block

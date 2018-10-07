@@ -1,4 +1,4 @@
-package com.marwa.eltayeb.tweetme;
+package com.marwa.eltayeb.LoginForm;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.eltayeb.eltayeb.tweetme", appContext.getPackageName());
+        assertEquals("com.eltayeb.eltayeb.LoginForm", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.marwa.eltayeb.tweetme;
+package com.marwa.eltayeb.LoginForm;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String email = intent.getStringExtra("email2");
 
-        Uri baseUri = Uri.parse("http://192.168.1.3/learn/delete.php?");
+        Uri baseUri = Uri.parse("http://192.168.1.5/learn/delete.php?");
         uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("email", email);
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 // Kick off an {@link AsyncTask} to perform the network request
                 LogInAsyncTask task = new LogInAsyncTask();
                 task.execute();
-                Intent intent = new Intent(this, SignupActivity.class);
+                Intent intent = new Intent(this, SignUpActivity.class);
                 startActivity(intent);
                 return true;
         }
