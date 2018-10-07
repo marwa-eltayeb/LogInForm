@@ -30,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
         uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("email", email);
 
-
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

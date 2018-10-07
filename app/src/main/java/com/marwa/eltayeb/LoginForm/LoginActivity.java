@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
     Button _loginButton;
     TextView _signupLink;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +60,14 @@ public class LoginActivity extends AppCompatActivity {
                 // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
-                finish();
+                //finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
 
-
     }
 
-    String email;
+
     public void login() {
         Log.d(TAG, "Login");
 
@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setEnabled(false);
 
         email = _emailText.getText().toString();
+
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
@@ -107,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        finish();
     }
 
     public void onLoginFailed() {
@@ -153,10 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //This method will be running on UI thread
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Loading...");
-            progressDialog.show();
+
         }
 
 
@@ -253,6 +250,10 @@ public class LoginActivity extends AppCompatActivity {
                 /* Here launching another activity when login successful. If you persist login state
                   use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
+                //This method will be running on UI thread
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 intent.putExtra("email2", email);
@@ -262,6 +263,7 @@ public class LoginActivity extends AppCompatActivity {
             }else if (result.equalsIgnoreCase("false")){
                 // If username and password does not match display a error message
                 Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_LONG).show();
+
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
                 Toast.makeText(LoginActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
             }

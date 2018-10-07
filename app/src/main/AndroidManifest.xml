@@ -27,7 +27,14 @@
         </activity>
 
 
-        <activity android:name="com.marwa.eltayeb.LoginForm.SignUpActivity">
+        <activity android:name="com.marwa.eltayeb.LoginForm.SignUpActivity"
+                  android:label="@string/register"
+                  android:parentActivityName=".LoginActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />>
 
         </activity>
     </application>
