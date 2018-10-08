@@ -2,6 +2,7 @@ package com.marwa.eltayeb.LoginForm;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     Button _signupButton;
     TextView _loginLink;
     Uri.Builder uriBuilder;
+    public static final String PREFS_NAME = "LoginPrefs";
 
 
     @Override
@@ -44,6 +46,16 @@ public class SignUpActivity extends AppCompatActivity {
         _reEnterPasswordText = (EditText) findViewById(R.id.input_reEnterPassword);
         _signupButton = (Button) findViewById(R.id.btn_signup);
         _loginLink = (TextView) findViewById(R.id.link_login);
+
+          /*
+         * Check if we successfully signed up before.
+         * If we did, redirect to home page
+         */
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
+        if (pref.getString("logged", "").equals("logged")) {
+            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
 
 
         // Press Create Account
@@ -101,7 +113,6 @@ public class SignUpActivity extends AppCompatActivity {
         uriBuilder.appendQueryParameter("mobile_number", mobile);
         uriBuilder.appendQueryParameter("password", password);
 
-
         // Kick off an {@link AsyncTask} to perform the network request
         LogInAsyncTask task = new LogInAsyncTask();
         task.execute();
@@ -120,8 +131,14 @@ public class SignUpActivity extends AppCompatActivity {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), "SignUp succeeded", Toast.LENGTH_LONG).show();
+        // Make SharedPreferences object
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("logged", "logged");
+        editor.putString("storeEmail", email);
+        editor.apply();
         Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
-        intent.putExtra("email2", email);
+        //intent.putExtra("email2", email);
         startActivity(intent);
     }
 
