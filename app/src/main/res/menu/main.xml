@@ -11,6 +11,11 @@
 
         <menu>
             <item
+                android:id="@+id/sign_out"
+                android:title="@string/sign_out"
+                app:showAsAction="never" />
+
+            <item
                 android:id="@+id/delete_account"
                 android:title="@string/delete_account"
                 app:showAsAction="never" />
