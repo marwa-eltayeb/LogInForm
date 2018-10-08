@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
          * If we did, redirect to home page
          */
         SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
-        if (pref.getString("logged", "").equals("logged")) {
+        if (pref.getString("logged", "No Value").equals("logged")) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
