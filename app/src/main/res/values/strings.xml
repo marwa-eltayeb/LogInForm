@@ -14,4 +14,6 @@
     <string name="delete_account">Delete Account</string>
     <string name="dots">dots</string>
     <string name="register">Register</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
