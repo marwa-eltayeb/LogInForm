@@ -2,6 +2,7 @@ package com.marwa.eltayeb.LoginForm;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
     Button _loginButton;
     TextView _signupLink;
+    public static final String PREFS_NAME = "LoginPrefs";
     private String email;
 
     @Override
@@ -42,9 +44,21 @@ public class LoginActivity extends AppCompatActivity {
 
 
         _emailText = (EditText) findViewById(R.id.input_email);
-         _passwordText = (EditText) findViewById(R.id.input_password);
-         _loginButton = (Button) findViewById(R.id.btn_login);
+        _passwordText = (EditText) findViewById(R.id.input_password);
+        _loginButton = (Button) findViewById(R.id.btn_login);
         _signupLink = (TextView) findViewById(R.id.link_signup);
+
+
+          /*
+         * Check if we successfully logged in before.
+         * If we did, redirect to home page
+         */
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
+        if (pref.getString("logged", "").equals("logged")) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,12 +93,11 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setEnabled(false);
 
         email = _emailText.getText().toString();
-
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
         // Initialize  AsyncLogin() class with email and password
-        new AsyncLogin().execute(email,password);
+        new AsyncLogin().execute(email, password);
     }
 
 
@@ -139,12 +152,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private class AsyncLogin extends AsyncTask<String, String, String> {
 
         // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
-        private static final int CONNECTION_TIMEOUT=10000;
-        private static final int READ_TIMEOUT=15000;
+        private static final int CONNECTION_TIMEOUT = 10000;
+        private static final int READ_TIMEOUT = 15000;
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
         HttpURLConnection conn;
@@ -153,9 +165,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
-
 
         @Override
         protected String doInBackground(String... params) {
@@ -172,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
 
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
@@ -219,10 +229,10 @@ public class LoginActivity extends AppCompatActivity {
                         result.append(line);
                     }
                     // Pass data to onPostExecute method
-                    return(result.toString());
+                    return (result.toString());
 
-                }else{
-                    return("unsuccessful");
+                } else {
+                    return ("unsuccessful");
                 }
 
             } catch (IOException e) {
@@ -245,8 +255,7 @@ public class LoginActivity extends AppCompatActivity {
                     }, 3000);
 
 
-            if(result.equalsIgnoreCase("true"))
-            {
+            if (result.equalsIgnoreCase("true")) {
                 /* Here launching another activity when login successful. If you persist login state
                   use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
@@ -255,21 +264,34 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                intent.putExtra("email2", email);
+                // Make SharedPreferences object
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("logged", "logged");
+                editor.putString("storeEmail", email);
+                editor.apply();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                //intent.putExtra("email2", email);
                 startActivity(intent);
                 LoginActivity.this.finish();
 
-            }else if (result.equalsIgnoreCase("false")){
+            } else if (result.equalsIgnoreCase("false")) {
                 // If username and password does not match display a error message
                 Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_LONG).show();
 
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
                 Toast.makeText(LoginActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
             }
+
+
         }
 
     }
+
+
+
+
+
 
 
 }
