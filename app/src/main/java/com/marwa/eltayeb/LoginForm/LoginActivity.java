@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
     public void login() {
         Log.d(TAG, "Login");
 
@@ -100,13 +98,12 @@ public class LoginActivity extends AppCompatActivity {
         new AsyncLogin().execute(email, password);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
 
-                // TODO: Implement successful signup logic here
+                // TODO: Implement successful signUp logic here
                 // By default we just finish the Activity and log them in automatically
                 this.finish();
             }
