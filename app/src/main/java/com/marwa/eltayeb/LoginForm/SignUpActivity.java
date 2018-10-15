@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
         //String original = "https://192.168.1.7/learn/insert.php?" + "name=" + name + "&" + "email=" + email;
 
         // TODO: Implement your own signup logic here.
-        Uri baseUri = Uri.parse("http://192.168.1.5/learn/insert.php?");
+        Uri baseUri = Uri.parse("http://192.168.1.6/learn/insert.php?");
         uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("username", name);
