@@ -9,14 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.marwa.eltayeb.LoginForm.LoginActivity.PREFS_NAME;
 
 public class MainActivity extends AppCompatActivity {
 
     Uri.Builder uriBuilder;
+    UserAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +30,27 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = getIntent();
         //String email = intent.getStringExtra("email2");
 
+        // Read Data
+        ReadAsyncTask task = new ReadAsyncTask();
+        task.execute();
+
         SharedPreferences sPrefs = getSharedPreferences(PREFS_NAME, 0);
         String receiveEmail = sPrefs.getString("storeEmail", "no mail");
 
-        Uri baseUri = Uri.parse("http://192.168.1.5/learn/delete.php?");
+        Uri baseUri = Uri.parse("http://192.168.1.6/learn/delete.php?");
         uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("email", receiveEmail);
+
+
+        // Find the ListView object in the view hierarchy of the {@link Activity}.
+        ListView listView = (ListView) findViewById(R.id.usersList);
+
+        //Create an UserAdapter, whose data source is a list of users.
+        adapter = new UserAdapter(this, new ArrayList<User>());
+
+        //Make the ListView use the UserAdapter
+        listView.setAdapter(adapter);
+
 
     }
 
@@ -87,7 +106,35 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
 
+
+    /**
+     * {@link AsyncTask} to perform the network request on a background thread
+     */
+    private class ReadAsyncTask extends AsyncTask<URL, Void, List<User>> {
+
+        @Override
+        protected List<User> doInBackground(URL... params) {
+            List<User> users = null;
+            try{
+                users = QueryUtils.fetchNewsData("http://192.168.1.6/learn/query.php");
+                Log.v("url",users.size() + " users");
+            } catch (Exception e) {
+                Log.v("Error","Error connecting with Api link");
+            }
+            return users;
+        }
+
+        @Override
+        protected void onPostExecute(List<User> users) {
+            super.onPostExecute(users);
+            // Clear the adapter of previous users data
+            adapter.clear();
+            if (users != null && !users.isEmpty()) {
+                adapter.addAll(users);
+            }
+        }
     }
 
 }
