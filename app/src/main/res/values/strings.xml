@@ -16,4 +16,6 @@
     <string name="register">Register</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_out">Sign Out</string>
+    <string name="mona">Mona</string>
+    <string name="forget_password">Forget password</string>
 </resources>

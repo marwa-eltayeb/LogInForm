@@ -148,6 +148,9 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
+    public void forgetPassword(View view) {
+    }
+
 
     private class AsyncLogin extends AsyncTask<String, String, String> {
 

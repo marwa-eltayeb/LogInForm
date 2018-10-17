@@ -57,9 +57,18 @@
             android:id="@+id/link_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/no_account_yet_create_one"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/forget_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="forgetPassword"
+            android:text="@string/forget_password"
             android:textSize="16sp" />
 
     </LinearLayout>
